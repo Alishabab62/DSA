@@ -1,0 +1,41 @@
+class Solution {
+public:
+    string reorganizeString(string s) {
+        int fre[26] = {0};
+        for(int i = 0;i<s.size();i++){
+            fre[s[i] - 'a']++;
+        }
+
+        int maxFrequency = INT_MIN;
+        char maxChar;
+        for(int i = 0;i<26;i++){
+            if(fre[i] > maxFrequency){
+                maxFrequency = fre[i];
+                maxChar = i + 'a';
+            }
+        }
+        
+        int index = 0;
+        string ans = "";
+        
+        while(maxFrequency > 0 && index < s.size()){
+            s[index] = maxChar;
+            maxFrequency--;
+            index+=2;
+        }
+
+        if(maxFrequency > 0) return "";
+
+        fre[maxChar - 'a'] = 0;
+        for(int i = 0;i<26;i++){
+            int frequency = fre[i]; 
+            while(frequency > 0){
+                index = index >= s.size() ? 1 : index;
+                s[index] = i +'a';
+                frequency--;
+                index+=2;
+            }
+        } 
+        return s;
+    }
+};
