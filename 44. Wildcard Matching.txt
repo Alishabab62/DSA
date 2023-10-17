@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool charMatch(string& s,int si ,string& p , int pi){
+
+        if(si == s.size() && pi == p.size()){
+            return true;
+        }
+        
+        if( si == s.size() && pi < p.size()){
+            while(pi < p.size()){
+                if(p[pi] != '*'){
+                    return false;
+                }
+                pi++;
+            }
+            return true;
+        }
+        
+        if(s[si] == p[pi] || p[pi] == '?'){
+            return charMatch(s,si+1,p,pi+1);
+        }
+        if(p[pi] == '*'){
+            bool caseA = charMatch(s,si,p,pi+1);
+            
+            bool caseB = charMatch(s,si+1,p,pi);
+            
+            return caseA || caseB;
+
+        }
+        return false;
+    }
+                   
+    bool isMatch(string s, string p) {
+        int pi = 0;
+        int si = 0;
+        
+        return charMatch(s,si,p,pi);
+    }
+};
