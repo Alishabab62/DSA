@@ -13,7 +13,7 @@ void mergeArray(int arr[],int start,int end){
         leftArr[i] = arr[k];
         k++;
     }
-    k = mid+1;
+    // k = mid+1;
     for(int i = 0; i < lengthRight; i++){
         rightArr[i] = arr[k];
         k++;
@@ -56,12 +56,12 @@ void mergeSort(int arr[],int start,int end){
     mergeSort(arr,mid+1,end);
     mergeArray(arr,start,end);
 }
-
+ 
 
 int main(){
-    int arr[10] = {2,5,3,10,3,6,5,9,0,2};
+    int arr[10] = {5,2,3,1};
     int start = 0;
-    int end = 9;
+    int end = 3;
     mergeSort(arr,start,end);
 
     for(int i=start;i<=end;i++){
