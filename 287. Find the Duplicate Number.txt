@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int size = nums.size();
+        map<int ,int>m;
+        for(int i = 0;i<size;i++){
+            m[nums[i]]++;
+        }
+        for(auto& fre : m){
+            if(fre.second > 1){
+                return fre.first;
+            }
+        }
+        return 1;
+    }
+};

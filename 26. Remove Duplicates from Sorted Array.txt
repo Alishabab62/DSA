@@ -16,3 +16,33 @@ public:
         return i+1;
     }
 };
+
+
+
+
+class Solution {
+public:
+    int solve(vector<int>& nums,int i,int j){
+        if(j>=nums.size()){
+            return i+1;
+        }
+         if(nums[i] == nums[j]){
+                j++;
+            }else{
+                i++;
+                nums[i] = nums[j];
+                j++;
+            }
+            return solve(nums,i,j);
+    }
+    int removeDuplicates(vector<int>& nums) {
+
+        int i = 0;
+        int j = 1;
+        if(nums.size() == 1){
+            return 1;
+        }
+        return solve(nums,i,j);
+
+    }
+};
