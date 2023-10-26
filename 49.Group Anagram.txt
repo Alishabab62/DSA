@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void solve(vector<string>& strs,int i,unordered_map <string,vector<string>>& mp){
+       if(i == strs.size()){
+           return;
+       }
+       string word = strs[i];
+       sort(strs[i].begin(),strs[i].end());
+       mp[strs[i]].push_back(word);
+       solve(strs,i+1,mp);
+    }
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map <string,vector<string>> mp;
+
+        // for(auto w :strs){
+        //     string word = w;
+        //     sort(w.begin(),w.end());
+        //     mp[w].push_back(word);
+        // }
+        vector<vector<string>> ans;
+
+        // for(auto an : mp){
+        //     ans.push_back(an.second);
+        // }
+        // return ans;
+
+        solve(strs,0,mp);
+        for(auto str:mp){
+            ans.push_back(str.second);
+        }
+        return ans;
+    }
+};
