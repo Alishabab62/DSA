@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool solve(vector<int>& count, vector<int>& quantity,int index){
+        if(index == quantity.size()){
+            return true;
+        }
+
+        for(int i = 0;i<count.size();i++){
+            if(count[i] >= quantity[index]){
+                count[i] -= quantity[index];
+                if(solve(count,quantity,index+1)){
+                    return true;
+                }
+                count[i] += quantity[index];
+            }
+        }
+        return false;
+    }
+    bool canDistribute(vector<int>& nums, vector<int>& quantity) {
+        map<int,int>fre;
+        for(auto f:nums){
+            fre[f]++;
+        }
+        vector<int>count;
+        for(auto m:fre){
+            count.push_back(m.second);
+        }
+        return solve(count,quantity ,0);
+    }
+};
