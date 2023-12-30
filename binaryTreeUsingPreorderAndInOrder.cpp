@@ -1,5 +1,6 @@
 #include<iostream>
 #include<map>
+#include<queue>
 using namespace std;
 
 class Node{
@@ -49,28 +50,74 @@ Node * createBinaryTreeUsingPreAndInOrder(int pre[],int in[],int size, map<int,i
         return root;
 }
 
+Node * createBinaryTreeUsingInAndPostOrder(int pre[],int in[],int size, map<int,int>map, int &index,int inStartIndex,int inEndIndex){
+        if(index < 0 ||  inStartIndex > inEndIndex){
+            return nullptr;
+        }
 
-void printTreePre(Node *root){
-    if(root == nullptr){
-        return;
+        int element = pre[index];
+        index--;
+        int position = map[element];
+        Node * root = new Node(element);
+        root->right = createBinaryTreeUsingInAndPostOrder(pre,in,size,map,index,position+1,inEndIndex);
+        root->left = createBinaryTreeUsingInAndPostOrder(pre,in,size,map,index,inStartIndex,position-1);
+        return root;
+}
+
+
+void printTreeLevelWise(Node *root){
+    queue<Node*>q;
+    q.push(root);
+    q.push(nullptr);
+
+    while(!q.empty()){
+        Node * front = q.front();
+        q.pop();
+
+        if(front  == nullptr){
+            cout << endl;
+            if(!q.empty()){
+                q.push(nullptr);
+            }
+        }
+        else{
+            cout << front->val << " ";
+            if(front->left != nullptr){
+                q.push(front->left);
+            }
+            if(front -> right != nullptr){
+                q.push(front->right);
+            }
+        }
     }
-
-    cout << "value of current node: " << root->val << endl;
-    printTreePre(root->left);
-    printTreePre(root->right);
 }
 
 
 int main(){
-    int pre[6] = {10,8,6,4,5,4};
+    // int pre[6] = {10,8,6,4,5,4};
+    // int in[6] = {6,8,4,10,4,5};
+    // int size = 6;
+    // int index = 0;
+    // int inStartIndex = 0;
+    // int inEndIndex = size;
+    // map<int,int> valueToIndex;
+    // mapping(in,valueToIndex);
+    // Node *root = createBinaryTreeUsingPreAndInOrder(pre,in,size,valueToIndex,index,inStartIndex,inEndIndex);
+    // printTreeLevelWise(root);
+
+
+    int post[6] = {6,4,8,4,5,10};
     int in[6] = {6,8,4,10,4,5};
     int size = 6;
-    int index = 0;
+    int index = size - 1;
     int inStartIndex = 0;
-    int inEndIndex = size;
+    int inEndIndex = size-1;
     map<int,int> valueToIndex;
     mapping(in,valueToIndex);
-    Node *root = createBinaryTreeUsingPreAndInOrder(pre,in,size,valueToIndex,index,inStartIndex,inEndIndex);
-    printTreePre(root);
+    Node *root = createBinaryTreeUsingInAndPostOrder(post,in,size,valueToIndex,index,inStartIndex,inEndIndex);
+    printTreeLevelWise(root);
+
+
+
     cout << "Binary tree" << endl;
 }

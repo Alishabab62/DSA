@@ -78,15 +78,14 @@ void printTreeLevelWise(Binary *root){
             if(!q.empty()){
                 q.push(nullptr);
             }
-            return;
         }
         else{
             cout << front->data << " ";
             if(front->left != nullptr){
-                printTreeLevelWise(front->left);
+                q.push(front->left);
             }
             if(front -> right != nullptr){
-                printTreeLevelWise(front->right);
+                q.push(front->right);
             }
         }
     }
