@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int numberOfBeams(vector<string>& bank) {
+        int size = bank.size();
+        int count = 0;
+        int previousCount = 0;
+        for(int i = 0;i<size;i++){
+            int currentCount = 0;
+            string str = bank[i];
+            for(auto ch : str){
+                if( ch == '1'){
+                    currentCount++;
+                } 
+            }
+            if(currentCount > 0){
+                count = count + (currentCount*previousCount);
+                previousCount = currentCount;
+            }
+        }
+        return count;
+    }
+};
