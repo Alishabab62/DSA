@@ -1,0 +1,111 @@
+class Solution {
+public:
+    int minStoneSum(vector<int>& piles, int k) {
+        priority_queue<int>pq;
+
+        for(int i = 0;i<piles.size();i++){
+            pq.push(piles[i]);
+        }
+        while(k--){
+            int ele = pq.top();
+            pq.pop();
+
+            ele = ele - floor(ele/2);
+            pq.push(ele);
+        }
+
+        int sum = 0;
+        while(!pq.empty()){
+            int top = pq.top();
+            sum += top;
+            pq.pop();
+        }
+        return sum;
+    }
+};
+
+
+
+class Info{
+    public:
+    char data;
+    int val;
+
+    Info(char ch , int cnt){
+        this->data = ch;
+        this->val = cnt;
+    }
+};
+
+class compare{
+    public:
+    bool operator()(Info a , Info b ){
+        return a.val < b.val;
+    }
+};
+
+class Solution {
+public:
+    string reorganizeString(string s) {
+        priority_queue<Info,vector<Info>,compare>pq;
+
+        int size = s.size();
+
+        int fre[26] = {0};
+        for(int i = 0;i<s.size();i++){
+            fre[s[i] - 'a']++;
+        }
+
+        for(int i = 0;i<26;i++){
+            char ch = i + 'a';
+            if(fre[i] > 0){
+                Info temp = Info(ch,fre[i]);
+                pq.push(temp);
+            }
+          
+        }
+      
+        int i = 0;
+        while(pq.size() > 1 && i < size){
+            
+            Info  first = pq.top();
+            pq.pop();
+            Info  second = pq.top();
+            pq.pop();
+
+            s[i] = first.data;
+            i++;
+            first.val--;
+            if(first.val > 0){
+                pq.push(first);
+            }
+
+            s[i] = second.data;
+            i++;
+            second.val--;
+            if(second.val > 0){
+                pq.push(second);
+            }
+           
+
+        }
+
+        while(pq.size() > 0 && i < size){
+            Info  first = pq.top();
+            pq.pop();
+             cout << first.data<< " " ;
+            s[i] = first.data;
+            i++;
+            first.val--;
+             if(first.val > 0){
+                pq.push(first);
+            }
+    
+            if(pq.size() > 0){
+                return "";
+            } 
+        }
+
+        return s;
+    }
+};
