@@ -1,0 +1,67 @@
+class Node {
+public:
+    char ch;
+    bool isTerminal;
+    Node* arr[58];
+
+    Node(char c) {
+        this->ch = c;
+        this->isTerminal = false;
+        for (int i = 0; i < 58; i++) {
+            arr[i] = NULL;
+        }
+    }
+};
+
+void createTrie(Node * root, string word){
+    if(word.length() == 0){
+        root->isTerminal = true;
+        return;
+    }
+    char ch = word[0];
+    int index = ch - 'A';
+    Node * child;
+    if(root->arr[index] == NULL){
+        child = new Node(ch);
+        root->arr[index] = child;
+    }
+    else{
+        child = root->arr[index];
+    }
+    createTrie(child, word.substr(1));
+}
+
+
+bool search(Node* root, string word) {
+    if (word.length() == 0) {
+        return root->isTerminal;
+    }
+
+    char ch = word[0];
+    int index = ch - 'A';
+
+
+    Node* child;
+    if (root->arr[index] != NULL) {
+        child = root->arr[index];
+        return search(child, word.substr(1));
+    } else if(islower(ch)) {
+        return search(root, word.substr(1));
+    }
+    return false;
+}
+
+
+class Solution {
+public:
+    vector<bool> camelMatch(vector<string>& queries, string pattern) {
+        vector<bool> ans;
+        Node* root = new Node('@');
+        createTrie(root, pattern);
+        for (int i = 0; i < queries.size(); i++) {
+            bool a = search(root, queries[i]);
+            ans.push_back(a);
+        }
+        return ans;
+    }
+};

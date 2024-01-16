@@ -1,0 +1,92 @@
+class Node {
+public:
+    char ch;
+    bool lastCharacter;
+    Node* childrens[26];
+
+    Node(char ch) {
+        this->ch = ch;
+        for (int i = 0; i < 26; i++) {
+            this->childrens[i] = NULL;
+        }
+        this->lastCharacter = false;
+    }
+};
+
+class Solution {
+public:
+    void createTrie(Node* root, string word) {
+        if (word.length() == 0) {
+            root->lastCharacter = true;
+            return;
+        }
+        char ch = word[0];
+        int index = ch - 'a';
+        Node* child;
+        if (root->childrens[index] == NULL) {
+            child = new Node(ch);
+            root->childrens[index] = child;
+        }
+        else {
+            child = root->childrens[index];
+        }
+        createTrie(child, word.substr(1));
+    }
+
+    void getAnsHelper(Node* root, string prefix, vector<string>& suggestions) {
+        if (root == NULL) {
+            return;
+        }
+
+        if (suggestions.size() >= 3) {
+            return;
+        }
+
+        if (root->lastCharacter) {
+            suggestions.push_back(prefix);
+        }
+
+        for (int i = 0; i < 26; i++) {
+            if (root->childrens[i]) {
+                getAnsHelper(root->childrens[i], prefix + char('a' + i), suggestions);
+            }
+        }
+    }
+
+    vector<string> getAns(Node* root, string word) {
+        vector<string> suggestions;
+        Node* current = root;
+
+        for (char ch : word) {
+            int index = ch - 'a';
+            if (current->childrens[index] == NULL) {
+                // Trie is exhausted before search word is fully typed
+                return suggestions;
+            }
+            current = current->childrens[index];
+        }
+
+        // Retrieve suggestions based on the current prefix
+        getAnsHelper(current, word, suggestions);
+        return suggestions;
+    }
+
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+        int size = products.size();
+        Node* root = new Node('@');
+        for (int i = 0; i < size; i++) {
+            createTrie(root, products[i]);
+        }
+
+        vector<vector<string>> ans;
+        string prefix = "";
+        for (int i = 0; i < searchWord.length(); i++) {
+            prefix.push_back(searchWord[i]);
+            vector<string> temp = getAns(root, prefix);
+            ans.push_back(temp);
+        }
+
+        return ans;
+    }
+};
+
