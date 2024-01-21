@@ -1,14 +1,67 @@
 class Solution {
 public:
-    int robHouse(vector<int>& nums,int i){
-        if(i >= nums.size()){
+    int solve(vector<int>& nums,int i ){
+        if(i>=nums.size()){
             return 0;
         }
-        int amt1 = nums[i] + robHouse(nums,i+2);
-        int amt2 = 0 + robHouse(nums,i+1);
-        return max(amt1,amt2);
+
+        int include = nums[i] + solve(nums,i+2);
+        int exclude = 0+ solve(nums,i+1);
+        int ans = max(include,exclude);
+        return ans;
     }
+
+    int solveUsingMemo(vector<int>& nums,int i,vector<int>& dp){
+        if(i>=nums.size()){
+            return 0;
+        }
+        if(dp[i] != -1){
+            return dp[i];
+        }
+
+        int include = nums[i] + solveUsingMemo(nums,i+2,dp);
+        int exclude = 0+ solveUsingMemo(nums,i+1,dp);
+        dp[i]= max(include,exclude);
+        return dp[i];
+    }
+    int solveUsingTablulaionm(vector<int>& nums){
+        int size = nums.size();
+        vector<int>dp(size,-1);
+        dp[size-1] = nums[size-1];
+
+        for(int i = size - 2; i>=0;i--){
+            int tempAns = 0;
+            if(i + 2 < size){
+                tempAns = dp[i+2];
+            }
+            int include = nums[i] + tempAns;
+            int exclude = 0 + dp[i + 1];
+            dp[i] = max(include,exclude);
+        }
+        return dp[0];
+    }
+
+    int solveUsingTablulaionmSpaceOptimizaion(vector<int>& nums){
+        int size = nums.size();
+        int next = 0;
+        int curr = 0;
+        int prev = nums[size-1];
+        
+        for(int i = size - 2; i>=0;i--){
+            int include = nums[i] + next;
+            int exclude = 0 + prev;
+            curr = max(include,exclude);
+            next = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+
     int rob(vector<int>& nums) {
-       return robHouse(nums,0);
+    //    return solve(nums,0);
+    // vector<int>dp(nums.size(),-1);
+    // return solveUsingMemo(nums,0,dp);
+    // return solveUsingTablulaionm(nums);
+    return solveUsingTablulaionmSpaceOptimizaion(nums);
     }
 };
