@@ -1,0 +1,99 @@
+class Solution {
+public:
+    int solve(vector<int>& coins, int amount){
+        if(amount == 0){
+            return 0;
+        }
+        int mini = INT_MAX;
+        for(int i = 0;i<coins.size();i++){
+            if(amount - coins[i] >= 0){
+                int temp = solve(coins,amount - coins[i]);
+                if(temp != INT_MAX){
+                    temp = temp + 1;
+                    mini = min(mini , temp);
+                }
+            }
+        }
+        return mini;
+    }
+
+    int usingMemo(vector<int>& coins, int amount, vector<int>& dp){
+        if(amount == 0){
+            return 0;
+        }
+        if(dp[amount] != -1){
+            return dp[amount];
+        }
+
+        int mini = INT_MAX;
+        for(int i=0;i<coins.size();i++){
+            if(amount - coins[i] >= 0){
+                int ans = usingMemo(coins,amount-coins[i],dp);
+                if(ans != INT_MAX){
+                    ans = 1 + ans;
+                    mini = min(ans,mini);
+                    dp[amount] = mini;
+                }
+            }
+        }
+        return dp[amount] = mini;
+    }
+
+    int usingTabulation(vector<int>& coins, int amount){
+        if(amount == 0){
+            return 0;
+        }
+        vector<int>dp(amount + 1 , -1);
+
+        dp[0] = 0;
+        for(int i = 1;i<= amount;i++){
+            int mini = INT_MAX;
+            for(int j = 0;j<coins.size();j++){
+                if(i - coins[j] >= 0){
+                    int ans = dp[ i - coins[j]];
+                    if(ans != INT_MAX){
+                        ans = 1 + ans;
+                        mini = min(mini,ans);
+                    }
+                }
+            }
+            dp[i] = mini;
+        }
+        return dp[amount];
+    }
+
+
+
+
+
+    int coinChange(vector<int>& coins, int amount) {
+        // int ans = solve(coins,amount);
+        // if(ans != INT_MAX){
+        //     return ans;        
+        // }
+        // else{
+        //     return -1;
+        // }
+
+
+        // vector<int>dp (amount + 1 , -1);
+        // int ans = usingMemo(coins,amount,dp);
+        // if(ans != INT_MAX){
+        //     return ans;        
+        // }
+        // else{
+        //     return -1;
+        // }
+
+        int ans = usingTabulation(coins,amount);
+        if(ans != INT_MAX){
+            return ans;        
+        }
+        else{
+            return -1;
+        }
+
+        
+    }
+    
+};
