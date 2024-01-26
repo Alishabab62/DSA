@@ -1,0 +1,54 @@
+class Solution {
+public:
+    int solve(string &a, string &b, int i, int j) {
+        if (a.length() == i) {
+            return b.length() - j;
+        }
+        if (b.length() == j) {
+            return a.length() - i;
+        }
+
+        int ans;
+        if (a[i] == b[j]) {
+            ans = solve(a, b, i + 1, j + 1);
+        } else {
+            int replace = solve(a, b, i + 1, j + 1);
+            int remove = solve(a, b, i + 1, j);
+            int insert = solve(a, b, i, j + 1);
+            ans = 1 + min(replace, min(remove, insert));
+        }
+
+        return ans;
+    }
+
+     int solveUsingMemo(string &a, string &b, int i, int j,vector<vector<int>>&dp) {
+        if (a.length() == i) {
+            return b.length() - j;
+        }
+        if (b.length() == j) {
+            return a.length() - i;
+        }
+
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+
+        int ans;
+        if (a[i] == b[j]) {
+            ans = solveUsingMemo(a, b, i + 1, j + 1, dp);
+        } else {
+            int replace = solveUsingMemo(a, b, i + 1, j + 1,dp);
+            int remove = solveUsingMemo(a, b, i + 1, j,dp);
+            int insert = solveUsingMemo(a, b, i, j + 1,dp);
+            ans = 1 + min(replace, min(remove, insert));
+        }
+
+        return dp[i][j] = ans;
+    }
+
+    int minDistance(string word1, string word2) {
+        // return solve(word1, word2, 0, 0);
+        vector<vector<int>>dp(word1.length(),vector<int>(word2.length(),-1));
+        return solveUsingMemo(word1, word2, 0, 0,dp);
+    }
+};
