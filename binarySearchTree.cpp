@@ -40,7 +40,6 @@ void createBST(Node * &root){
     cout << "Enter data: " << endl;
     cin >> value;
 
-
     while(value != -1){
         root = insertIntoBST(root, value);
         cout << "Enter data: " << endl;
