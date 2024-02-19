@@ -1,0 +1,71 @@
+class Solution {
+public:
+    // void markRows(vector<vector<int>>& mat, int i) {
+    //     int cols = mat[0].size();
+    //     for (int k = 0; k < cols; k++) {
+    //         if(mat[i][k] == -1){
+    //             continue;
+    //         }
+
+    //         if (mat[i][k] != 0) {
+    //             mat[i][k] = -1;
+    //         }
+    //     }
+    // }
+
+    // void markCols(vector<vector<int>>& mat, int j) {
+    //     int rows = mat.size();
+    //     for (int k = 0; k < rows; k++) {
+    //         if(mat[k][j] == -1){
+    //             continue;
+    //         }
+
+    //         if (mat[k][j] != 0) {
+    //             mat[k][j] = -1;
+    //         }
+    //     }
+    // }
+    void setZeroes(vector<vector<int>>& matrix) {
+        // int rows = matrix.size();
+        // int cols = matrix[0].size();
+
+        // for(int i =0;i<rows;i++){
+        //     for(int j =0;j<cols;j++){
+        //         if(matrix[i][j] == 0){
+        //             markRows(matrix,i);
+        //             markCols(matrix,j);
+        //         }
+        //     }
+        // }
+        // for(int i =0;i<rows;i++){
+        //     for(int j =0;j<cols;j++){
+        //         if(matrix[i][j] == -1){
+        //             matrix[i][j] = 0; 
+        //         }
+        //     }
+        // }
+
+        int rows = matrix.size();
+        int cols = matrix[0].size();
+        vector<int>colVector(cols,0);
+        vector<int>rowVector(rows,0);
+
+        for(int i =0;i<rows;i++){
+            for(int j =0;j<cols;j++){
+                if(matrix[i][j] == 0){
+                    colVector[j] = 1;
+                    rowVector[i] = 1;
+                }
+            }
+        }
+
+        for(int i =0;i<rows;i++){
+            for(int j =0;j<cols;j++){
+                if(colVector[j] == 1 || rowVector[i] == 1){
+                    matrix[i][j] = 0;  
+                }
+            }
+        }
+
+    }
+};
