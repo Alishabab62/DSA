@@ -1,24 +1,58 @@
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
-        set<vector<int>>st;
+        // set<vector<int>>st;
+        // int size = nums.size();
+        // for(int i = 0;i<size;i++){
+        //     for(int j = i+1;j<size;j++){
+        //         set<long long>mp;
+        //         for(int k = j+1;k<size;k++){
+        //             long long s = nums[i] + nums[j];
+        //             s+=nums[k];
+        //             if(mp.find(target - s) != mp.end()){
+        //                 vector<int>temp = {nums[i] , nums[j] , nums[k] , int(target - s)};
+        //                 sort(temp.begin(),temp.end());
+        //                 st.insert(temp);
+        //             }
+        //             mp.insert(nums[k]);
+        //         }
+        //     }
+        // }
+        // vector<vector<int>>ans(st.begin(),st.end());
+        // return ans;
+
+        sort(nums.begin(),nums.end());
+        vector<vector<int>>ans;
         int size = nums.size();
         for(int i = 0;i<size;i++){
+            if(i>0 && nums[i] == nums[i-1]) continue;
             for(int j = i+1;j<size;j++){
-                set<long long>mp;
-                for(int k = j+1;k<size;k++){
-                    long long s = nums[i] + nums[j];
-                    s+=nums[k];
-                    if(mp.find(target - s) != mp.end()){
-                        vector<int>temp = {nums[i] , nums[j] , nums[k] , int(target - s)};
-                        sort(temp.begin(),temp.end());
-                        st.insert(temp);
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+                int s = j+1;
+                int e = size-1;
+                 
+                while(s<e){
+                    long long sum = nums[i] + nums[j];
+                    sum+=nums[s];
+                    sum+=nums[e];
+                    if(sum ==  target){
+                        ans.push_back({nums[i],nums[j],nums[s],nums[e]});
+                        s++;
+                        e--;
+                        while(s<e && nums[s-1] == nums[s]) s++;
+                        while(s<e && nums[e+1] == nums[e]) e--;
                     }
-                    mp.insert(nums[k]);
+                    else if(sum > target){
+                        e--;
+                        // while(s<e && nums[e+1] == nums[e]) e--;
+                    }
+                    else{
+                        s++;
+                        // while(s<e && nums[s-1] == nums[s]) s++;
+                    }
                 }
             }
         }
-        vector<vector<int>>ans(st.begin(),st.end());
         return ans;
     }
 };
