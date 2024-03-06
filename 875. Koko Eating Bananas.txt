@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        // int s = piles.size();
+        // int maxi = INT_MIN;
+
+        // for(int i =0;i<s;i++){
+        //     maxi = max(maxi,piles[i]);
+        // }
+
+        // int ans = 0;
+        // for(int i = 1;i<=maxi;i++){
+        //     int sum = 0;
+        //     if(ans != 0) break;
+        //     for(int j = 0;j<s;j++){
+        //         double temp = static_cast<double>(piles[j]) / i;
+        //         sum+=ceil(temp);
+        //         if(sum > h){
+        //             break;
+        //         }
+        //     }
+        //     if(sum <= h){
+        //         ans = i;
+        //     }
+        // }
+        // return ans;
+
+        int s = piles.size();
+        int maxi = INT_MIN;
+
+        for(int i =0;i<s;i++){
+            maxi = max(maxi,piles[i]);
+        }
+
+        int low = 1;
+        int high = maxi;
+        int ans  = 0;
+        while(low<=high){
+            int mid = (low+high)/2;
+            int sum = 0;
+            for(int j = 0;j<s;j++){
+                double temp = static_cast<double>(piles[j]) / mid;
+                sum+=ceil(temp);
+                if(sum > h){
+                    low = mid+1;
+                    break;
+                }
+            }
+            if(sum <= h){
+                ans = mid;
+                high = mid-1;
+            }
+            // else{
+            //     low = mid+1;
+            // }
+        }
+        return ans;
+    }
+};
