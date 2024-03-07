@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int s = bloomDay.size();
+        int ans = -1;
+        if(s<m*k) return ans;
+
+        int maxi = INT_MIN;
+        for(int i =0;i<s;i++){
+            maxi = max(maxi,bloomDay[i]);
+        }
+
+        for(int i = maxi;i>=1;i--){
+            int adj = 0;
+            int bou = 0;
+            for(int j = 0;j<s;j++){
+                if(bloomDay[j] <= i){
+                    adj++;
+                }
+                else{
+                    adj = 0;
+                }
+                if(adj == k){
+                    bou++;
+                    adj = 0;
+                }
+                if(bou == m){
+                    ans = i;
+                }
+            }
+        }
+        return ans;
+    }
+};
