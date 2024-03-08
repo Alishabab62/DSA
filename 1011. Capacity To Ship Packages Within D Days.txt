@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool canShipWithinDays(vector<int>& weights, int capacity, int days) {
+        int day = 1;
+        int load = 0;
+        for (int weight : weights) {
+            if (load + weight > capacity) {
+                day++;
+                load = weight;
+            } else {
+                load += weight;
+            }
+        }
+        return day <= days;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+            int totalWeight = 0;
+            int maxWeight = 0;
+            for (int weight : weights) {
+                totalWeight += weight;
+                maxWeight = max(maxWeight, weight);
+            }
+
+            int left = maxWeight;  
+            int right = totalWeight;
+
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (canShipWithinDays(weights, mid, days)) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            return left;
+        }
+};
