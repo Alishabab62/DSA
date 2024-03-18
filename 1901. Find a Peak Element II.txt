@@ -1,0 +1,62 @@
+class Solution {
+public:
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+    int row = mat.size();
+    int col = mat[0].size();
+    int maxi = INT_MIN; 
+    vector<int> ans;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (mat[i][j] > maxi) {
+                    maxi = mat[i][j];
+                    ans.clear();
+                    ans.push_back(i);
+                    ans.push_back(j);
+                }
+            }
+        }
+        return ans;
+    // int row = mat.size();
+    // int col = mat[0].size();
+    
+    // vector<int> ans;
+
+    //     // Iterate over the inner elements of the grid
+    //     for (int i = 1; i < row - 1; i++) {
+    //         for (int j = 1; j < col - 1; j++) {
+    //             if (mat[i][j] > mat[i - 1][j] && mat[i][j] > mat[i + 1][j] &&
+    //                 mat[i][j] > mat[i][j - 1] && mat[i][j] > mat[i][j + 1]) {
+    //                 ans.push_back(i);
+    //                 ans.push_back(j);
+    //                 return ans;
+    //             }
+    //         }
+    //     }
+
+    //     if (row > 1 && col > 1) {
+    //         if (mat[0][0] > mat[0][1] && mat[0][0] > mat[1][0]) {
+    //             ans.push_back(0);
+    //             ans.push_back(0);         
+    //             return ans;
+    //         }
+    //         if (mat[0][col - 1] > mat[0][col - 2] && mat[0][col - 1] > mat[1][col - 1]) {
+    //             ans.push_back(0);
+    //             ans.push_back(col-1);
+    //             return ans;
+    //         }
+    //         if (mat[row - 1][0] > mat[row - 2][0] && mat[row - 1][0] > mat[row - 1][1]) {
+    //             ans.push_back(row-1);
+    //             ans.push_back(0);
+    //             return ans;
+    //         }
+    //         if (mat[row - 1][col - 1] > mat[row - 1][col - 2] && mat[row - 1][col - 1] > mat[row - 2][col - 1]) {
+    //             ans.push_back(row-1);
+    //             ans.push_back(col-1);
+    //             return ans;
+    //         }
+    //     }
+
+    //     return ans;
+    }
+
+};
