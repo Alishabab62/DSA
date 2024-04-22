@@ -54,6 +54,7 @@ public:
         //     return temp->next;
         // }
         // if(n == 1){
+            
         //     temp->next = nullptr;
         // }
         // else{
