@@ -1,0 +1,71 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int getLength(ListNode* head){
+        int len = 0;
+        while(head!=nullptr){
+            head = head->next;
+            len++;
+        }
+        return len;
+    }
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (head == nullptr || head->next == nullptr || k == 0) return head;
+
+        int len = 1;
+        ListNode* last = head;
+        while (last->next != nullptr) {
+            last = last->next;
+            len++;
+        }
+
+        k = k % len;
+        if (k == 0) return head;
+
+
+        ListNode* new_tail = head;
+        for (int i = 0; i < len - k - 1; i++) {
+            new_tail = new_tail->next;
+        }
+        ListNode* new_head = new_tail->next;
+
+        last->next = head;
+        new_tail->next = nullptr;
+
+        return new_head;
+        
+        // if(head == nullptr || head->next == nullptr || k == 0) return head;
+        // int len = getLength(head);
+        // if(len == k) return head;
+        // ListNode * prev = head;
+        // while(len < k){
+        //     k = k-len;
+        // }
+        // int count = len-k;
+        // if(count == 0) return head;
+
+        // while(count != 1){
+        //     prev = prev->next;
+        //     count--;
+        // }
+        // ListNode * next = prev->next;
+        // prev->next = nullptr;
+        // ListNode * temp = next;
+
+        // while(temp->next != nullptr){
+        //     temp=temp->next;
+        // }
+        // temp->next = head;
+
+        // return next;
+    }
+};
